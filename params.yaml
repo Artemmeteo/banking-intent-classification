@@ -1,0 +1,21 @@
+data:
+  dataset: mteb/banking77
+  revision: 18072d2685ea682290f7b8924d94c62acc19c0b2
+  seed: 42
+  validation_fraction: 0.1
+model:
+  name: distilbert-base-uncased
+  revision: 12040accade4e8a0f71eabdb258fecc2e7e948be
+  version: banking77-distilbert-v1
+  max_length: 128
+  unknown_threshold: 0.45
+training:
+  epochs: 2
+  batch_size: 16
+  learning_rate: 0.0001
+quality:
+  macro_f1_min: 0.70
+  max_macro_f1_drop: 0.02
+  ece_max: 0.08
+  required_label_count: 77
+  p95_inference_latency_ms_max: 100.0

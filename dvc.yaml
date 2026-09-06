@@ -1,0 +1,62 @@
+stages:
+  download:
+    cmd: >-
+      uv run --group training text-clf-data download
+      --output data/processed
+      --dataset ${data.dataset}
+      --revision ${data.revision}
+      --seed ${data.seed}
+      --validation-fraction ${data.validation_fraction}
+    deps:
+      - src/text_clf/data
+      - src/text_clf/domain/banking77.py
+    params:
+      - data
+    outs:
+      - data/processed
+  train:
+    cmd: >-
+      uv run --group training text-clf-train
+      --data data/processed
+      --output artifacts/candidate-model
+      --base-model ${model.name}
+      --model-revision ${model.revision}
+      --dataset-revision ${data.revision}
+      --model-version ${model.version}
+      --metrics-output artifacts/train-metrics.json
+      --epochs ${training.epochs}
+      --batch-size ${training.batch_size}
+      --learning-rate ${training.learning_rate}
+      --max-length ${model.max_length}
+      --unknown-threshold ${model.unknown_threshold}
+      --seed ${data.seed}
+      --overwrite
+    deps:
+      - data/processed
+      - src/text_clf/domain
+      - src/text_clf/infrastructure/model_package.py
+      - src/text_clf/models/hf_models.py
+      - src/text_clf/training
+    params:
+      - data.revision
+      - data.seed
+      - model
+      - training
+    outs:
+      - artifacts/candidate-model
+    metrics:
+      - artifacts/train-metrics.json:
+          cache: false
+  evaluate:
+    cmd: >-
+      uv run --group training text-clf-evaluate
+      --model artifacts/candidate-model
+      --data data/processed
+      --output artifacts/evaluation.json
+    deps:
+      - artifacts/candidate-model
+      - data/processed
+      - src/text_clf/training/evaluate.py
+    metrics:
+      - artifacts/evaluation.json:
+          cache: false

@@ -1,0 +1,5 @@
+[core]
+    remote = storage
+['remote "storage"']
+    url = s3://text-clf-dvc
+    endpointurl = http://minio:9000
