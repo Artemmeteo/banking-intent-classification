@@ -1,12 +1,14 @@
 .venv/
 .idea/
+.env
 __pycache__/
 *.pyc
 .python-version
+training.log
 
-
-data/
-mlruns/
+/data/
+/models/
+/artifacts/
 mlflow_artifacts/
 *.log
 
@@ -14,6 +16,8 @@ mlflow_artifacts/
 .pytest_cache/
 .ruff_cache/
 .ipynb_checkpoints/
+
+.airflow/
 
 
 *.pt
