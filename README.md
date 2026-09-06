@@ -1,6 +1,6 @@
 # Banking user intent classification
 
-README.md which corresponds to this project will be soon
+README.md that properly corresponds in proper to this project will be soon
 
 
 
